@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "pyspark_streaming"
+version = "0.1.0"
+description = ""
+authors = ["William Chong <william@inorbit.com>"]
+readme = "README.md"
+packages = [{include = "pyspark_streaming"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+requests = "^2.28.2"
+rich = "^13.3.1"
+pandas = "^1.5.3"
+praw = "^7.6.1"
+pyspark = "^3.3.2"
+findspark = "^2.0.1"
+kafka-python = "^2.0.2"
+python-dotenv = "^1.0.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

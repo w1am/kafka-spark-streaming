@@ -1,0 +1,5 @@
+dist
+package
+.venv
+*.zip
+.env

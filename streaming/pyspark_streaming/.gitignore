@@ -1,0 +1,7 @@
+dist
+package
+.venv
+*.zip
+.env
+checkpoint_dir
+target
