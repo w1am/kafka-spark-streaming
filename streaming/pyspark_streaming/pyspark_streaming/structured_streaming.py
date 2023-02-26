@@ -1,5 +1,10 @@
+# Pyspark 3.3.2 removed support for kafka. see:
+# https://stackoverflow.com/questions/61891762/spark-3-x-integration-with-kafka-in-python
+
 from pyspark.sql import SparkSession
 import pyspark_streaming.config as config
+from pyspark.sql.types import StringType, StructField, StructType
+from pyspark.sql.functions import from_json, col
 
 topic = "reviews"
 
@@ -23,14 +28,10 @@ streaming_df = spark.readStream\
     .option("kafka.security.protocol", config.KAFKA_SECURITY_PROTOCOL) \
     .option(
         "kafka.sasl.jaas.config",
-        "org.apache.kafka.common.security.scram.ScramLoginModule required username=\" + " + \
-            config.KAFKA_USERNAME + " + \" password=\" + " + config.KAFKA_PASSWORD + " + \";"
+        f"org.apache.kafka.common.security.scram.ScramLoginModule required username=\"{config.KAFKA_USERNAME}\" password=\"{config.KAFKA_PASSWORD}\";"
     ) \
     .option("startingOffsets", "earliest") \
     .load()
-
-from pyspark.sql.types import StringType, StructField, StructType
-from pyspark.sql.functions import from_json, col
 
 schema = StructType([
     StructField("value", StringType())
