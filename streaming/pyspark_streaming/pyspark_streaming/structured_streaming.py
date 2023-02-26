@@ -6,6 +6,8 @@ import pyspark_streaming.config as config
 from pyspark.sql.types import StringType, StructField, StructType
 from pyspark.sql.functions import from_json, col
 
+production = False
+
 topic = "reviews"
 
 spark = SparkSession \
@@ -24,14 +26,13 @@ streaming_df = spark.readStream\
     .format("kafka") \
     .option("subscribe", topic) \
     .option("kafka.bootstrap.servers", config.KAFKA_URL) \
-    .option("kafka.sasl.mechanism", config.KAFKA_SASL_MECHANISM) \
-    .option("kafka.security.protocol", config.KAFKA_SECURITY_PROTOCOL) \
-    .option(
-        "kafka.sasl.jaas.config",
-        f"org.apache.kafka.common.security.scram.ScramLoginModule required username=\"{config.KAFKA_USERNAME}\" password=\"{config.KAFKA_PASSWORD}\";"
-    ) \
     .option("startingOffsets", "earliest") \
-    .load()
+
+streaming_df = streaming_df \
+    .option("kafka.sasl.mechanism", config.KAFKA_MECHANISM) \
+    .option("kafka.security.protocol", config.KAFKA_SECURITY_PROTOCOL) \
+    .option("kafka.sasl.jaas.config", config.KAFKA_JAAS_CONFIG) \
+    .load() if config.production else streaming_df.load()
 
 schema = StructType([
     StructField("value", StringType())

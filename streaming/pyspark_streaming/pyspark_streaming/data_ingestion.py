@@ -3,7 +3,6 @@ from kafka import KafkaProducer
 import json
 from dotenv import load_dotenv
 import pyspark_streaming.config as config
-from pyspark_streaming.logger import logger
 
 load_dotenv()
 
@@ -16,18 +15,23 @@ subreddit = reddit.subreddit(subreddit_name)
 
 serializer = lambda v: json.dumps(v).encode('utf-8')
 
+
+prod_conf = {
+    "sasl_plain_username": config.KAFKA_USERNAME,
+    "sasl_plain_password": config.KAFKA_PASSWORD,
+    "sasl_mechanism": config.KAFKA_MECHANISM,
+    "security_protocol": config.KAFKA_SECURITY_PROTOCOL,
+}
+
 producer = KafkaProducer(
     bootstrap_servers=[config.KAFKA_URL],
-    sasl_plain_username=config.KAFKA_USERNAME,
-    sasl_plain_password=config.KAFKA_PASSWORD,
-    sasl_mechanism=config.KAFKA_SASL_MECHANISM,
-    security_protocol=config.KAFKA_SECURITY_PROTOCOL,
     value_serializer=serializer,
-    key_serializer=serializer
+    key_serializer=serializer,
+    **prod_conf if config.production else {}
 )
 
 for comment in subreddit.stream.comments(skip_existing=True):
-    logger.info(comment.body)
+    print(comment.body)
 
     comment_json = {
         "value": comment.body
