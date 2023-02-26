@@ -2,7 +2,7 @@ import requests
 from requests.auth import HTTPBasicAuth
 from rich import print
 import pandas as pd
-import reddit_streaming.config as config
+import pyspark_streaming.config as config
 
 # Get authentication info
 client_auth = HTTPBasicAuth(config.REDDIT_CLIENT_ID, config.REDDIT_CLIENT_SECRET)

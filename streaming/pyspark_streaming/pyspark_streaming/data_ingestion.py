@@ -2,8 +2,8 @@ import praw
 from kafka import KafkaProducer
 import json
 from dotenv import load_dotenv
-import reddit_streaming.config as config
-from reddit_streaming.logger import logger
+import pyspark_streaming.config as config
+from pyspark_streaming.logger import logger
 
 load_dotenv()
 

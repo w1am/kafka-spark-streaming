@@ -1,7 +1,7 @@
 import praw
 import findspark
 findspark.init("/Users/will/server/spark-3.3.2-bin-hadoop3")
-import reddit_streaming.config as config
+import pyspark_streaming.config as config
 
 from pyspark.sql import SparkSession
 

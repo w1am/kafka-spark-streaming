@@ -1,5 +1,5 @@
 from pyspark.sql import SparkSession
-import reddit_streaming.config as config
+import pyspark_streaming.config as config
 
 topic = "reviews"
 

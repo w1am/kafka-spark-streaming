@@ -1,5 +1,5 @@
 import json
-from reviews_data_integration.producer import ReviewProducer
+from data_ingestion.producer import ReviewProducer
 
 def lambda_handler(event, context):
     producer = ReviewProducer()
